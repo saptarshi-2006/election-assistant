@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Calendar, User, Upload, AlertTriangle, CheckCircle, X } from 'lucide-react';
+import api from '../../services/api';
 
 const ECDashboard = () => {
   const [voteDate, setVoteDate] = useState('2026-05-25');
@@ -31,9 +32,31 @@ const ECDashboard = () => {
     }
   ]);
 
-  const handleSave = () => {
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 3000);
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const response = await api.get('/ec/config');
+        if (response.data.success) {
+          const { voteDate, bloName, bloPhoto } = response.data.config;
+          setVoteDate(voteDate);
+          setBloName(bloName);
+          setBloPhoto(bloPhoto);
+        }
+      } catch (err) {
+        console.error("Failed to fetch EC config", err);
+      }
+    };
+    fetchConfig();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      await api.post('/ec/config', { voteDate, bloName, bloPhoto });
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    } catch (err) {
+      console.error("Failed to save config", err);
+    }
   };
 
   const handlePhotoChange = (e) => {

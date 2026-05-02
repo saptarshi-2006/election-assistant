@@ -5,7 +5,8 @@ const router = express.Router();
 // Mock database for EC
 let ecConfig = {
   voteDate: '2026-05-25',
-  bloName: 'John Doe'
+  bloName: 'John Doe',
+  bloPhoto: null
 };
 
 let incidents = [];
