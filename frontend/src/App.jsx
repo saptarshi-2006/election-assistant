@@ -16,6 +16,8 @@ import BLODashboard from './pages/blo/BLODashboard';
 import BLOChecklist from './pages/blo/BLOChecklist';
 import BLOFormGuide from './pages/blo/BLOFormGuide';
 import BLOAskAI from './pages/blo/BLOAskAI';
+import ECDashboard from './pages/ec/ECDashboard';
+import BLOFaceAuth from './pages/blo/BLOFaceAuth';
 
 const ProtectedRoute = ({ allowedRole }) => {
   const { userRole, currentUser } = useAuth();
@@ -52,6 +54,12 @@ const AppLayout = () => {
             <Route path="blo/checklist" element={<BLOChecklist />} />
             <Route path="blo/forms" element={<BLOFormGuide />} />
             <Route path="blo/ask" element={<BLOAskAI />} />
+            <Route path="blo/auth" element={<BLOFaceAuth />} />
+          </Route>
+
+          {/* EC Routes */}
+          <Route element={<ProtectedRoute allowedRole="ec" />}>
+            <Route path="ec/dashboard" element={<ECDashboard />} />
           </Route>
         </Routes>
       </main>

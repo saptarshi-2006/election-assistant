@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../../components/ui/Card';
 import { ProgressBar } from '../../components/ui/ProgressBar';
 import { Users, CheckCircle, Clock } from 'lucide-react';
 import api from '../../services/api';
 
 const BLODashboard = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     totalVoters: 0,
     verifiedCount: 0,
@@ -14,6 +16,12 @@ const BLODashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check for face verification
+    const isVerified = localStorage.getItem('blo_verified') === 'true';
+    if (!isVerified) {
+      navigate('/blo/auth');
+      return;
+    }
     const fetchDashboardData = async () => {
       try {
         const response = await api.get('/blo/dashboard');

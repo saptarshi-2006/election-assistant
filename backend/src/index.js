@@ -6,6 +6,7 @@ import voterRoutes from './routes/voter.routes.js';
 import bloRoutes from './routes/blo.routes.js';
 import chatRoutes from './routes/chat.routes.js';
 import translateRoutes from './routes/translate.routes.js';
+import ecRoutes from './routes/ec.routes.js';
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use('/v1/voter', voterRoutes);
 app.use('/v1/blo', bloRoutes);
 app.use('/v1/chat', chatRoutes);
 app.use('/v1/translate', translateRoutes);
+app.use('/v1/ec', ecRoutes);
 
 // Seed route for testing
 import { seedDatabase } from './controllers/seed.controller.js';

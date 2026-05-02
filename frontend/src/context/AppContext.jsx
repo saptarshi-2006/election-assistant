@@ -5,14 +5,11 @@ const AppContext = createContext();
 export const useAppContext = () => useContext(AppContext);
 
 export const AppProvider = ({ children }) => {
-  const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
+  const language = 'en';
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
-    localStorage.setItem('language', language);
-  }, [language]);
-
-  useEffect(() => {
+    localStorage.setItem('theme', theme);
     localStorage.setItem('theme', theme);
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -23,7 +20,6 @@ export const AppProvider = ({ children }) => {
 
   const value = {
     language,
-    setLanguage,
     theme,
     setTheme
   };

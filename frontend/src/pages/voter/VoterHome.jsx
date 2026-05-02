@@ -5,15 +5,23 @@ import { Calendar, MapPin, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useNews } from '../../hooks/useNews';
 import { ExternalLink } from 'lucide-react';
+import heroImage from '../../assets/hero.png';
 const VoterHome = () => {
   const { news, loading, error } = useNews();
 
   return (
     <div className="p-4 space-y-6 pb-20">
-      <header>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome, Voter!</h1>
-        <p className="text-slate-500 dark:text-slate-400">Get ready for the upcoming elections.</p>
-      </header>
+      <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg mb-6 group">
+        <img 
+          src={heroImage} 
+          alt="Election Hero" 
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-5">
+          <h1 className="text-2xl font-bold text-white drop-shadow-md">Welcome, Voter!</h1>
+          <p className="text-blue-100 text-sm">Empowering your vote with Nirvachan Sahayika</p>
+        </div>
+      </div>
 
       <Card className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-0">
         <h2 className="text-lg font-semibold mb-2">Next Election Day</h2>

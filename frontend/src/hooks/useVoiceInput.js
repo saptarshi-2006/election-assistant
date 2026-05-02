@@ -9,9 +9,7 @@ export function useVoiceInput(lang, onResult) {
     if (!SpeechRecognition) return;
     
     recognition.current = new SpeechRecognition();
-    recognition.current.lang =
-      lang === 'bn' ? 'bn-IN' :
-      lang === 'hi' ? 'hi-IN' : 'en-IN';
+    recognition.current.lang = 'en-IN';
       
     recognition.current.onresult = (e) => {
       onResult(e.results[0][0].transcript);

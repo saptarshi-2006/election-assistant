@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setCurrentUser(null);
     setUserRole(null);
+    localStorage.removeItem('blo_verified');
   };
 
   const value = {
