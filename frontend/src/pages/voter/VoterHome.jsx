@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { Calendar, MapPin, FileText } from 'lucide-react';
+import { Calendar, MapPin, FileText, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useNews } from '../../hooks/useNews';
 import { ExternalLink } from 'lucide-react';
@@ -48,6 +48,21 @@ const VoterHome = () => {
           </Card>
         </Link>
       </div>
+
+      <Link to="/voter/complaint" className="block">
+        <Card className="bg-red-50 dark:bg-red-900/10 border-l-4 border-l-red-500 hover:border-red-500 transition-colors p-4 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-full">
+              <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-red-900 dark:text-red-100">File a Public Complaint</h3>
+              <p className="text-xs text-red-700 dark:text-red-300 mt-1">Report election violations directly to EC</p>
+            </div>
+          </div>
+          <div className="text-red-500 font-bold">&rarr;</div>
+        </Card>
+      </Link>
 
       <div>
         <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Latest Election News</h3>

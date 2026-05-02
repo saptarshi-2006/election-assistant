@@ -12,6 +12,7 @@ import VoterHome from './pages/voter/VoterHome';
 import VoterTimeline from './pages/voter/VoterTimeline';
 import VoterAskAI from './pages/voter/VoterAskAI';
 import VoterCheck from './pages/voter/VoterCheck';
+import VoterComplaint from './pages/voter/VoterComplaint';
 import BLODashboard from './pages/blo/BLODashboard';
 import BLOChecklist from './pages/blo/BLOChecklist';
 import BLOFormGuide from './pages/blo/BLOFormGuide';
@@ -46,6 +47,7 @@ const AppLayout = () => {
             <Route path="voter/timeline" element={<VoterTimeline />} />
             <Route path="voter/ask" element={<VoterAskAI />} />
             <Route path="voter/check" element={<VoterCheck />} />
+            <Route path="voter/complaint" element={<VoterComplaint />} />
           </Route>
 
           {/* BLO Routes */}
