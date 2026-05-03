@@ -10,9 +10,9 @@ const BLOFaceAuth = () => {
   const videoRef = useRef(null);
   const [status, setStatus] = useState('idle'); // idle, scanning, success, fail
   const [stream, setStream] = useState(null);
-  const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [referencePhoto, setReferencePhoto] = useState(null);
   const canvasRef = useRef(null);
+  const [capturedPhoto, setCapturedPhoto] = useState(null);
 
   useEffect(() => {
     startCamera();
@@ -75,6 +75,21 @@ const BLOFaceAuth = () => {
     }, 3000);
   };
 
+  const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const photo = canvas.toDataURL('image/jpeg');
+      setCapturedPhoto(photo);
+      return photo;
+    }
+    return null;
+  };
+
   const reportIncident = async (photo) => {
     try {
       await api.post('/ec/report-incident', { photo, location: 'Booth 42' });
@@ -112,8 +127,6 @@ const BLOFaceAuth = () => {
               </div>
             </div>
           )}
-          
-          <canvas ref={canvasRef} className="hidden" />
           
           {status === 'scanning' && (
             <div className="absolute inset-0 flex flex-col items-center justify-center">

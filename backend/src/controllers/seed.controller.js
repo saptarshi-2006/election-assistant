@@ -25,7 +25,24 @@ export const seedDatabase = async (req, res, next) => {
       lastUpdated: new Date().toISOString()
     });
 
-    res.status(200).json({ success: true, message: 'Seeded test BLO and Booth', uid: userRecord.uid });
+    // Seed EC Config
+    await db.collection('ec_config').doc('global').set({
+      voteDate: '2026-05-25',
+      bloName: 'John Doe',
+      bloPhoto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
+      updatedAt: new Date().toISOString()
+    });
+
+    // Seed some mock incidents
+    const incidentRef = db.collection('incidents');
+    await incidentRef.add({
+      time: new Date().toISOString(),
+      location: 'Booth 42',
+      status: 'Pending',
+      photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400'
+    });
+
+    res.status(200).json({ success: true, message: 'Seeded test BLO, Booth, and EC data', uid: mockUid });
   } catch (error) {
     next(error);
   }

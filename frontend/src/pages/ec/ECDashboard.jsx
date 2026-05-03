@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Card } from '../../components/ui/Card';
-import { Calendar, User, Upload, AlertTriangle, CheckCircle, X, ShieldAlert, Image as ImageIcon } from 'lucide-react';
+import { Button } from '../../components/ui/Button';
+import { Calendar, User, Upload, AlertTriangle, CheckCircle, X, ShieldAlert, Image as ImageIcon, RefreshCw } from 'lucide-react';
 import api from '../../services/api';
 
 const ECDashboard = () => {
@@ -15,45 +16,40 @@ const ECDashboard = () => {
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [publicComplaints, setPublicComplaints] = useState([]);
   
-  // Mock incidents
-  const [incidents, setIncidents] = useState([
-    { 
-      id: 1, 
-      time: '2026-05-02 08:30', 
-      location: 'Booth 42', 
-      status: 'Pending',
-      photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400' 
-    },
-    { 
-      id: 2, 
-      time: '2026-05-01 14:15', 
-      location: 'Booth 12', 
-      status: 'Verified',
-      photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400'
+  const [incidents, setIncidents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get('/ec/config');
+      if (response.data.success) {
+        const { voteDate, bloName, bloPhoto } = response.data.config;
+        setVoteDate(voteDate);
+        setBloName(bloName);
+        setBloPhoto(bloPhoto);
+      }
+      
+      // Fetch complaints
+      const complaintsRes = await api.get('/ec/complaints');
+      if (complaintsRes.data.success) {
+        setPublicComplaints(complaintsRes.data.complaints);
+      }
+
+      // Fetch incidents
+      const incidentsRes = await api.get('/ec/incidents');
+      if (incidentsRes.data.success) {
+        setIncidents(incidentsRes.data.incidents);
+      }
+    } catch (err) {
+      console.error("Failed to fetch EC data", err);
+    } finally {
+      setLoading(false);
     }
-  ]);
+  };
 
   useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        const response = await api.get('/ec/config');
-        if (response.data.success) {
-          const { voteDate, bloName, bloPhoto } = response.data.config;
-          setVoteDate(voteDate);
-          setBloName(bloName);
-          setBloPhoto(bloPhoto);
-        }
-        
-        // Fetch complaints
-        const complaintsRes = await api.get('/ec/complaints');
-        if (complaintsRes.data.success) {
-          setPublicComplaints(complaintsRes.data.complaints);
-        }
-      } catch (err) {
-        console.error("Failed to fetch EC data", err);
-      }
-    };
-    fetchConfig();
+    fetchData();
   }, []);
 
   const handleSave = async () => {
@@ -79,9 +75,20 @@ const ECDashboard = () => {
 
   return (
     <div className="p-4 space-y-6 pb-20">
-      <header>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Election Commission</h1>
-        <p className="text-slate-500 dark:text-slate-400">Control Center & Oversight</p>
+      <header className="flex justify-between items-start">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Election Commission</h1>
+          <p className="text-slate-500 dark:text-slate-400">Control Center & Oversight</p>
+        </div>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={fetchData}
+          disabled={loading}
+          className="rounded-full h-10 w-10 p-0"
+        >
+          <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+        </Button>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

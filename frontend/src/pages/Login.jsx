@@ -26,6 +26,7 @@ const Login = () => {
     try {
       await api.post('/auth/set-role', { role, language });
       
+      if (role === 'blo') localStorage.removeItem('blo_verified');
       setUserRole(role);
       if (role === 'voter') navigate('/voter/home');
       else if (role === 'blo') navigate('/blo/dashboard');

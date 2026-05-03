@@ -21,7 +21,15 @@ export const BottomTabBar = () => {
     { path: '/blo/ask', label: 'Ask AI', icon: MessageSquare },
   ];
 
-  const tabs = userRole === 'blo' ? bloTabs : voterTabs;
+  const ecTabs = [
+    { path: '/ec/dashboard', label: 'Dash', icon: Home },
+    { path: '/voter/home', label: 'Voter View', icon: Clock }, // Added for convenience
+    { path: '/voter/ask', label: 'Ask AI', icon: MessageSquare },
+  ];
+
+  let tabs = voterTabs;
+  if (userRole === 'blo') tabs = bloTabs;
+  else if (userRole === 'ec') tabs = ecTabs;
 
   return (
     <div className="fixed bottom-0 w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 pb-safe">

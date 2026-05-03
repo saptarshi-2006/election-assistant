@@ -3,13 +3,22 @@ import express from 'express';
 const router = express.Router();
 
 // Mock database for EC
+// Mock database for EC (In a production app, these would be in Firestore)
 let ecConfig = {
   voteDate: '2026-05-25',
   bloName: 'John Doe',
-  bloPhoto: null
+  bloPhoto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400'
 };
 
-let incidents = [];
+let incidents = [
+  { 
+    id: 1, 
+    time: '2026-05-02 08:30', 
+    location: 'Booth 42', 
+    status: 'Pending',
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400' 
+  }
+];
 let publicComplaints = [];
 
 router.get('/config', (req, res) => {
